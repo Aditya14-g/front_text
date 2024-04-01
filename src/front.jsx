@@ -14,7 +14,6 @@ export default function Front() {
             data: data,
             
         };
-        console.log(jsonData);
 
         fetch('http://localhost:4000', {
         method: 'POST', // or 'PUT', 'DELETE', etc.
@@ -26,19 +25,49 @@ export default function Front() {
         .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
+
         }
-        console.log(response)
-            setIsLoading(true);
-        })
-        .then(data => {
-        console.log('Response data:', data);
+        setIsLoading(true);
+            // setIsLoading(true);
+            // fetch('http://localhost:4000',{
+            //    method:'GET',
+
+            // })
+            // .then(async (response)=>{
+            //     // setResData(await response.json()[0].Data);
+            //     // const temp =await response.json();
+            //     // console.log(temp[0].Data)
+            //     // setResData(temp[0].Data);
+            //     response.json().then((data)=>{
+            //         setResData(data[0].Data);
+            //     })
+               
+            // })
+            // setIsLoading(false)
         })
         .catch(error => {
         console.error('Error:', error);
         });
 
 
+    }
+    async function fun2(e){
+        setIsLoading(true);
+            fetch('http://localhost:4000',{
+               method:'GET',
 
+            })
+            .then(async (response)=>{
+                // setResData(await response.json()[0].Data);
+                // const temp =await response.json();
+                // console.log(temp[0].Data)
+                // setResData(temp[0].Data);
+                response.json().then((data)=>{
+                    setResData(data[0].Data);
+                })
+               
+            })
+            setIsLoading(false)
     }
     return (
         <div className="user-input">
@@ -71,26 +100,21 @@ export default function Front() {
                     </form>
                 </motion.div>  
                 <div className='output-area'>
-
-                    <motion.div
+                <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.5 }}
                         className="response-data"
                     >
-                    {
-                        isLoading 
-                        ? ( // If isLoading is true, display the loader
-                        <div className="loader-container">
-                          <div className="loader"></div>
-                          <p>Loading...</p>
-                        </div>
-                        ) 
-                        :<h1>{}</h1>
-                    }
-                            <h2>Summary:</h2>
-                            <p>hello</p>
-                        </motion.div>
+                        {
+                            isLoading 
+                            ? (
+                                <div className="loader"></div>
+                            ) 
+                            : <p>{resData}</p>
+                        }
+                    </motion.div>
+                    <button onClick={fun2}className='write'>Write</button>
                 </div>
             </div>
         </div>
